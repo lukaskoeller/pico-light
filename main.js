@@ -13,9 +13,27 @@ let keepReading = true;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-const closePort = async () => {
-  await port.close();
-};
+/**
+ * Closes the currently active connection.
+ */
+ async function closePort() {
+  // Move |port| into a local variable so that connectToPort() doesn't try to
+  // close it on exit.
+  const localPort = port;
+  port = undefined;
+
+  if (reader) {
+    await reader.cancel();
+  }
+
+  if (localPort) {
+    try {
+      await localPort.close();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 
 const openPort = async () => {
   // Filters for Raspberry Pi Pico
