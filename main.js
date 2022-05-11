@@ -1,4 +1,5 @@
-import './style.css'
+import './style.css';
+import blink from './blink.py?raw';
 
 document.querySelector('#app').innerHTML = `
   <h1>Raspberry Pi Pico Demo</h1>
@@ -70,8 +71,8 @@ const openPort = async () => {
       }
       reader.releaseLock();
       reader = undefined;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
   }
 };
@@ -84,7 +85,9 @@ const writeToPort = async () => {
   }
 
   let toFlush = '';
-  const data = 'machine.Pin(25, machine.Pin.OUT).toggle()\r';
+  // machine.Pin(25, machine.Pin.OUT).toggle()\r
+  // import candle\r
+  const data = 'kill %1\r';
 
   toFlush += data;
 
